@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -76,7 +77,7 @@ public class LikeActivity extends Activity implements View.OnClickListener {
         mMenu.setmMenuPressedBackColor(Color.GRAY);
         mMenu.setMenuSelectedListener(new OnMenuSelectedListener() {
             @Override
-            public void onSelected(View view, int RowIndex, int ColumnIndex) {
+            public void onSelected(View view, final int RowIndex, int ColumnIndex) {
                 if (RowIndex==0){
                     new Thread(){
                         public void run(){
@@ -88,7 +89,17 @@ public class LikeActivity extends Activity implements View.OnClickListener {
                         }
                     }.start();
                 }else {
+                    new Thread(){
+                        public void run(){
+                            HashMap<String,String>map=new HashMap<String, String>();
+                            map.put("collectUsername",GlobalData.USER_NAME);
+                            map.put("collectClass",arr1[RowIndex]);
+                            Log.e("RowIndex", String.valueOf(RowIndex));
+                            res= HttpUtils.sendPost(GlobalData.URL+"collect/selectCollectClass",map,"utf8");
+                            mHandler.sendEmptyMessage(1);
 
+                        }
+                    }.start();
                 }
             }
         });

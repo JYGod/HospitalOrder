@@ -23,6 +23,8 @@ import com.edu.hrbeu.hospitalorder.utils.TopMenuHeader;
 import com.google.gson.Gson;
 import com.like.IconType;
 import com.like.LikeButton;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 
 import java.util.HashMap;
 
@@ -36,6 +38,10 @@ public class MenuDetail extends Activity implements View.OnClickListener {
     private String menuInfo;
     private TopMenuHeader topHeader;
     private LikeButton btnLike;
+    private String res;
+    private MenuBean menu;
+    private DialogPlus dialog;
+    private String orderResult;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class MenuDetail extends Activity implements View.OnClickListener {
     private void listener() {
         topHeader.topMenuLeft.setOnClickListener(this);
         btnLike.setOnClickListener(this);
+        btnOrder.setOnClickListener(this);
     }
 
     private void initView() {
@@ -57,7 +64,7 @@ public class MenuDetail extends Activity implements View.OnClickListener {
         menuInfo=intent.getStringExtra("menuInfo");
         btnLike.setIcon(IconType.Heart);
         Gson gson=new Gson();
-        MenuBean menu=gson.fromJson(menuInfo,MenuBean.class);
+        menu=gson.fromJson(menuInfo,MenuBean.class);
         tvMenuName.setText(menu.getMenu().getMenu_name());
         tvMenuInfo.setText(menu.getMenu().getMenu_intro());
         tvPrice.setText(menu.getMenu().getMenu_price()+"元");
@@ -66,6 +73,15 @@ public class MenuDetail extends Activity implements View.OnClickListener {
                 .crossFade(1000)
                 .into(iv_img);
         topHeader=new TopMenuHeader(getWindow().getDecorView());
+        new Thread(){
+            public void run(){
+                HashMap<String,String>map=new HashMap<String, String>();
+                map.put("collectUsername",GlobalData.USER_NAME);
+                map.put("collectMenuname",menu.getMenu().getMenu_name());
+                res=HttpUtils.sendPost(GlobalData.URL+"collect/judgeCollect",map,"utf8");
+                mHandler.sendEmptyMessage(2);
+            }
+        }.start();
     }
 
     private void findIds() {
@@ -89,6 +105,7 @@ public class MenuDetail extends Activity implements View.OnClickListener {
                         HashMap<String,String>map=new HashMap<String, String>();
                         map.put("collectUsername", GlobalData.USER_NAME);
                         map.put("collectMenuname",tvMenuName.getText().toString());
+                        map.put("collectClass",menu.getMenu().getMenu_class());
                         String updateResult= HttpUtils.sendPost(GlobalData.URL+"collect/addCollect",map,"utf8");
                         Gson gson=new Gson();
                         UpdateStatus status=gson.fromJson(updateResult,UpdateStatus.class);
@@ -100,6 +117,65 @@ public class MenuDetail extends Activity implements View.OnClickListener {
                     }
                 }.start();
                // btnLike.setLiked(true);
+                break;
+            case R.id.btn_order:
+                dialog = DialogPlus.newDialog(this)
+                        .setContentHolder(new ViewHolder(R.layout.order_dialog))
+                        .setCancelable(false)
+                        .setExpanded(true)
+                        .create();
+                final int[] num = {1};
+                View view1 = dialog.getHolderView();
+                Button btnOrderCheck=(Button)view1.findViewById(R.id.btn_order_check);
+                ImageView ivSub=(ImageView)view1.findViewById(R.id.iv_sub);
+                ImageView ivAdd=(ImageView)view1.findViewById(R.id.iv_add);
+                TextView tvName=(TextView)view1.findViewById(R.id.tv_name);
+                final TextView tvNum=(TextView)view1.findViewById(R.id.tv_num);
+                final TextView tvPrice=(TextView)view1.findViewById(R.id.tv_price);
+                tvName.setText(menu.getMenu().getMenu_name());
+                tvNum.setText("份数：✖️"+"1");
+                tvPrice.setText("-"+menu.getMenu().getMenu_price()+"元");
+                ImageView ivCancel=(ImageView)view1.findViewById(R.id.iv_cancel);
+                ivAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        num[0]++;
+                        tvNum.setText("份数：✖️"+String.valueOf(num[0]));
+                        tvPrice.setText("-"+String.valueOf(Integer.parseInt(menu.getMenu().getMenu_price())* num[0])+"元");
+
+                    }
+                });
+                ivSub.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (num[0]>1){
+                            num[0]--;
+                        }else {
+                            num[0]=1;
+                        }
+                        tvNum.setText("份数：✖️"+String.valueOf(num[0]));
+                        tvPrice.setText("-"+String.valueOf(Integer.parseInt(menu.getMenu().getMenu_price())* num[0])+"元");
+                    }
+                });
+                ivCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                btnOrderCheck.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        HashMap<String,String>map=new HashMap<String, String>();
+                        map.put("orderformUsername",GlobalData.USER_NAME);
+                        map.put("orderformMenuname",menu.getMenu().getMenu_name());
+                        map.put("orderformMenuprice",menu.getMenu().getMenu_price());
+                        map.put("orderformNum",String.valueOf(num[0]));
+                        orderResult=HttpUtils.sendPost(GlobalData.URL+"orderform/addOrderform",map,"utf8");
+                        mHandler.sendEmptyMessage(3);
+                    }
+                });
+                dialog.show();
                 break;
         }
     }
@@ -115,6 +191,21 @@ public class MenuDetail extends Activity implements View.OnClickListener {
                 btnLike.setEnabled(false);
             }else if (msg.what==-1){//fail
                 Toast.makeText(getApplicationContext(),"收藏失败！",Toast.LENGTH_SHORT).show();
+            }else if (msg.what==2){
+                Gson gson=new Gson();
+                UpdateStatus status=gson.fromJson(res,UpdateStatus.class);
+                if (status.getI()==1){
+                    btnLike.setLiked(true);
+                    btnLike.setEnabled(false);
+                }
+            }else if (msg.what==3){
+                Gson gson=new Gson();
+                UpdateStatus status = gson.fromJson(orderResult, UpdateStatus.class);
+                if (status.getI()==1){
+                    Toast.makeText(getApplicationContext(),"下单成功~",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplicationContext(),"下单失败！",Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };

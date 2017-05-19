@@ -6,6 +6,8 @@ public class MenuBean {
     private String tip;
     private Menu menu;
 
+
+
     public String getStatus() {
         return status;
     }
