@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         LinearLayout btnLogout=(LinearLayout)mInfalte.findViewById(R.id.select_logout);
         LinearLayout layoutLike=(LinearLayout)mInfalte.findViewById(R.id.select_like);
         LinearLayout layoutOrder=(LinearLayout)mInfalte.findViewById(R.id.select_order);
+        LinearLayout layoutOut=(LinearLayout)mInfalte.findViewById(R.id.select_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,6 +180,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick(View view) {
                 Intent intent=new Intent(mContext,OrderListActivity.class);
                 startActivity(intent);
+            }
+        });
+        layoutOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mContext,LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

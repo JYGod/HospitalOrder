@@ -99,6 +99,7 @@ public class UserInfo extends Activity implements View.OnClickListener {
                 if (btnInfo.getText().toString().equals("保存信息")){
                     final HashMap<String,String>map=new HashMap<>();
                     map.put("userName",GlobalData.USER_NAME);
+                    map.put("userSex",etSex.getText().toString());
                     map.put("userAddr",etAddress.getText().toString());
                     map.put("userPhone",etPhone.getText().toString());
                     new Thread(){
@@ -108,6 +109,7 @@ public class UserInfo extends Activity implements View.OnClickListener {
                         }
                     }.start();
                 }else {
+                    etSex.setEnabled(true);
                     etPhone.setEnabled(true);
                     etAddress.setEnabled(true);
                     btnInfo.setText("保存信息");
