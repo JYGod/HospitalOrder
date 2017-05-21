@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,17 +19,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.hrbeu.hospitalorder.GlobalData;
+import com.edu.hrbeu.hospitalorder.bean.Menu;
+import com.edu.hrbeu.hospitalorder.R;
 import com.edu.hrbeu.hospitalorder.adapter.MenuAdapter;
 import com.edu.hrbeu.hospitalorder.bean.ResultBean;
 import com.edu.hrbeu.hospitalorder.utils.HttpUtils;
 import com.google.gson.Gson;
 
-import org.apache.http.message.BasicNameValuePair;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class Search extends Activity{

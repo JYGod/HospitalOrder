@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.bean;
 
 
 

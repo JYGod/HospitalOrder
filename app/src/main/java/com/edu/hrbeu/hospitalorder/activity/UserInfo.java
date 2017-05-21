@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.activity;
 
 
 import android.app.Activity;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.hrbeu.hospitalorder.GlobalData;
+import com.edu.hrbeu.hospitalorder.R;
 import com.edu.hrbeu.hospitalorder.utils.HttpUtils;
 import com.edu.hrbeu.hospitalorder.utils.TopMenuHeader;
 import com.google.gson.Gson;
@@ -47,7 +49,7 @@ public class UserInfo extends Activity implements View.OnClickListener {
         new Thread(){
             public void run(){
                 HashMap<String,String >map=new HashMap<String, String>();
-                map.put("userName",GlobalData.USER_NAME);
+                map.put("userName", GlobalData.USER_NAME);
                 res=HttpUtils.sendPost(GlobalData.URL+"user/selectUser",map,"utf8");
                 mHandler.sendEmptyMessage(1);
             }
@@ -83,7 +85,7 @@ public class UserInfo extends Activity implements View.OnClickListener {
                 etAddress.setText(info.getList().get(0).getUser_addr());
                 etMoney.setText(info.getList().get(0).getUser_money());
 
-            }else if (msg.what==1){
+            }else if (msg.what==2){
                 Toast.makeText(getApplicationContext(),"修改成功！",Toast.LENGTH_SHORT).show();
                 finish();
             }

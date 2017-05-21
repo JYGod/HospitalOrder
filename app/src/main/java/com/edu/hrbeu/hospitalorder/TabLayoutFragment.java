@@ -18,8 +18,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.edu.hrbeu.hospitalorder.activity.MenuDetail;
 import com.edu.hrbeu.hospitalorder.adapter.MenuAdapter;
-import com.edu.hrbeu.hospitalorder.bean.MenuBean;
+import com.edu.hrbeu.hospitalorder.bean.Menu;
 import com.edu.hrbeu.hospitalorder.bean.ResultBean;
 import com.edu.hrbeu.hospitalorder.utils.HttpUtils;
 import com.google.gson.Gson;

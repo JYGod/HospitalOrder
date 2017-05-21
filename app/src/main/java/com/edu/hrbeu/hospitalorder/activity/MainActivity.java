@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +25,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.edu.hrbeu.hospitalorder.GlobalData;
+import com.edu.hrbeu.hospitalorder.R;
+import com.edu.hrbeu.hospitalorder.TabLayoutFragment;
 import com.edu.hrbeu.hospitalorder.adapter.TabAdapter;
 import com.edu.hrbeu.hospitalorder.utils.GlideImageLoader;
 import com.edu.hrbeu.hospitalorder.utils.PerfectClickListener;

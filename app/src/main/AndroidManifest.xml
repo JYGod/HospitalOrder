@@ -29,18 +29,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Search" />
-        <activity android:name=".MenuDetail" />
-        <activity android:name=".UserInfo" />
-        <activity android:name=".LikeActivity" />
-        <activity android:name=".OrderListActivity" />
+        <activity android:name=".activity.Search" />
+        <activity android:name=".activity.MenuDetail" />
+        <activity android:name=".activity.UserInfo" />
+        <activity android:name=".activity.LikeActivity" />
+        <activity android:name=".activity.OrderListActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.Register" />
     </application>
 
 </manifest>

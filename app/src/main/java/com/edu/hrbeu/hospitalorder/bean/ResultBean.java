@@ -1,8 +1,6 @@
 package com.edu.hrbeu.hospitalorder.bean;
 
 
-import com.edu.hrbeu.hospitalorder.Menu;
-
 import java.util.ArrayList;
 
 public class ResultBean {

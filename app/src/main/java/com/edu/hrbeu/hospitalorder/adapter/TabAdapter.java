@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
-import com.edu.hrbeu.hospitalorder.MainActivity;
+import com.edu.hrbeu.hospitalorder.activity.MainActivity;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
 
+import com.edu.hrbeu.hospitalorder.GlobalData;
+import com.edu.hrbeu.hospitalorder.R;
 import com.edu.hrbeu.hospitalorder.adapter.OrderAdapter;
 import com.edu.hrbeu.hospitalorder.bean.Order;
 import com.edu.hrbeu.hospitalorder.bean.OrderListBean;
@@ -37,7 +39,7 @@ public class OrderListActivity extends Activity implements View.OnClickListener 
         new Thread(){
             public void run(){
                 HashMap<String,String>map=new HashMap<String, String>();
-                map.put("orderformUsername",GlobalData.USER_NAME);
+                map.put("orderformUsername", GlobalData.USER_NAME);
                 orderResult= HttpUtils.sendPost(GlobalData.URL+"orderform/selectOrderform",map,"utf8");
                 mHandler.sendEmptyMessage(1);
             }
@@ -57,7 +59,6 @@ public class OrderListActivity extends Activity implements View.OnClickListener 
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what==1){
-
                 Gson gson=new Gson();
                 OrderListBean orderListBean=gson.fromJson(orderResult,OrderListBean.class);
                 ArrayList<Order>orders=orderListBean.getList();

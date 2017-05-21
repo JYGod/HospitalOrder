@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.activity;
 
 
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.edu.hrbeu.hospitalorder.GlobalData;
+import com.edu.hrbeu.hospitalorder.R;
 import com.edu.hrbeu.hospitalorder.bean.MenuBean;
 import com.edu.hrbeu.hospitalorder.bean.UpdateStatus;
 import com.edu.hrbeu.hospitalorder.utils.HttpUtils;
@@ -76,7 +78,7 @@ public class MenuDetail extends Activity implements View.OnClickListener {
         new Thread(){
             public void run(){
                 HashMap<String,String>map=new HashMap<String, String>();
-                map.put("collectUsername",GlobalData.USER_NAME);
+                map.put("collectUsername", GlobalData.USER_NAME);
                 map.put("collectMenuname",menu.getMenu().getMenu_name());
                 res=HttpUtils.sendPost(GlobalData.URL+"collect/judgeCollect",map,"utf8");
                 mHandler.sendEmptyMessage(2);

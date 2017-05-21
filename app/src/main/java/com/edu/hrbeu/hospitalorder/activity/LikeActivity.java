@@ -1,4 +1,4 @@
-package com.edu.hrbeu.hospitalorder;
+package com.edu.hrbeu.hospitalorder.activity;
 
 
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.hrbeu.hospitalorder.GlobalData;
+import com.edu.hrbeu.hospitalorder.R;
 import com.edu.hrbeu.hospitalorder.adapter.LikeAdapter;
 import com.edu.hrbeu.hospitalorder.bean.LikeBean;
 import com.edu.hrbeu.hospitalorder.bean.UpdateStatus;
@@ -59,7 +61,7 @@ public class LikeActivity extends Activity implements View.OnClickListener {
         new Thread(){
             public void run(){
                 HashMap<String,String>map=new HashMap<String, String>();
-                map.put("collectUsername",GlobalData.USER_NAME);
+                map.put("collectUsername", GlobalData.USER_NAME);
                 res= HttpUtils.sendPost(GlobalData.URL+"collect/selectCollect",map,"utf8");
                 mHandler.sendEmptyMessage(1);
 

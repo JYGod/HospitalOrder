@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.edu.hrbeu.hospitalorder.Menu;
+import com.edu.hrbeu.hospitalorder.bean.Menu;
 import com.edu.hrbeu.hospitalorder.R;
 
 import java.util.ArrayList;
