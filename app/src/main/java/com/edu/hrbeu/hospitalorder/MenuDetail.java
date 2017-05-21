@@ -166,13 +166,21 @@ public class MenuDetail extends Activity implements View.OnClickListener {
                 btnOrderCheck.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        HashMap<String,String>map=new HashMap<String, String>();
-                        map.put("orderformUsername",GlobalData.USER_NAME);
-                        map.put("orderformMenuname",menu.getMenu().getMenu_name());
-                        map.put("orderformMenuprice",menu.getMenu().getMenu_price());
-                        map.put("orderformNum",String.valueOf(num[0]));
-                        orderResult=HttpUtils.sendPost(GlobalData.URL+"orderform/addOrderform",map,"utf8");
-                        mHandler.sendEmptyMessage(3);
+                        new Thread(){
+                            public void run(){
+                                HashMap<String,String>map=new HashMap<String, String>();
+                                map.put("orderformUsername",GlobalData.USER_NAME);
+                                map.put("orderformMenuname",menu.getMenu().getMenu_name());
+                                map.put("orderformMenuprice",menu.getMenu().getMenu_price());
+                                map.put("orderformNum",String.valueOf(num[0]));
+                                HashMap<String,String>map2=new HashMap<String, String>();
+                                map2.put("userName",GlobalData.USER_NAME);
+                                map2.put("menuName",menu.getMenu().getMenu_name());
+                                orderResult=HttpUtils.sendPost(GlobalData.URL+"orderform/addOrderform",map,"utf8");
+                                HttpUtils.sendPost(GlobalData.URL+"userorderform/updateUserOrderform",map2,"utf8");
+                                mHandler.sendEmptyMessage(3);
+                            }
+                        }.start();
                     }
                 });
                 dialog.show();
@@ -203,8 +211,10 @@ public class MenuDetail extends Activity implements View.OnClickListener {
                 UpdateStatus status = gson.fromJson(orderResult, UpdateStatus.class);
                 if (status.getI()==1){
                     Toast.makeText(getApplicationContext(),"下单成功~",Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }else {
                     Toast.makeText(getApplicationContext(),"下单失败！",Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             }
         }

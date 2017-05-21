@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .error(R.drawable.img_two_bi_one)
                 .crossFade(1000)
                 .into(pic3);
-
         contnet.addView(mInflate);
         contnet.addView(mInflateMain);
         contnet.addView(inflateMain1);
@@ -150,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         TextView tvLogout = (TextView) mInfalte.findViewById(R.id.tv_logout);
         LinearLayout btnLogout=(LinearLayout)mInfalte.findViewById(R.id.select_logout);
         LinearLayout layoutLike=(LinearLayout)mInfalte.findViewById(R.id.select_like);
+        LinearLayout layoutOrder=(LinearLayout)mInfalte.findViewById(R.id.select_order);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,6 +168,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(mContext,LikeActivity.class);
+                startActivity(intent);
+            }
+        });
+        layoutOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mContext,OrderListActivity.class);
                 startActivity(intent);
             }
         });

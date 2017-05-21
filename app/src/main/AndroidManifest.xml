@@ -40,6 +40,7 @@
         <activity android:name=".MenuDetail" />
         <activity android:name=".UserInfo" />
         <activity android:name=".LikeActivity" />
+        <activity android:name=".OrderListActivity" />
     </application>
 
 </manifest>

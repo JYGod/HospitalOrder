@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edu.hrbeu.hospitalorder.utils.HttpUtils;
 import com.edu.hrbeu.hospitalorder.utils.TopMenuHeader;
@@ -82,6 +83,9 @@ public class UserInfo extends Activity implements View.OnClickListener {
                 etAddress.setText(info.getList().get(0).getUser_addr());
                 etMoney.setText(info.getList().get(0).getUser_money());
 
+            }else if (msg.what==1){
+                Toast.makeText(getApplicationContext(),"修改成功！",Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     };
@@ -90,6 +94,22 @@ public class UserInfo extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_info:
+                if (btnInfo.getText().toString().equals("保存信息")){
+                    final HashMap<String,String>map=new HashMap<>();
+                    map.put("userName",GlobalData.USER_NAME);
+                    map.put("userAddr",etAddress.getText().toString());
+                    map.put("userPhone",etPhone.getText().toString());
+                    new Thread(){
+                        public void run(){
+                            HttpUtils.sendPost(GlobalData.URL+"user/updateUser",map,"utf8");
+                            mHandler.sendEmptyMessage(2);
+                        }
+                    }.start();
+                }else {
+                    etPhone.setEnabled(true);
+                    etAddress.setEnabled(true);
+                    btnInfo.setText("保存信息");
+                }
                 break;
             case R.id.top_menu_left:
                 finish();

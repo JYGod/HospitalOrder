@@ -29,7 +29,9 @@
             <!-- 分割线 -->
             <View style="@style/bg_line" />
             <!-- 无圆角-->
-            <LinearLayout style="@style/mid_layout">
+            <LinearLayout
+                android:id="@+id/select_order"
+                style="@style/mid_layout">
 
                 <TextView
                     style="@style/usertext"

@@ -19,12 +19,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edu.hrbeu.hospitalorder.adapter.MenuAdapter;
+import com.edu.hrbeu.hospitalorder.bean.ResultBean;
+import com.edu.hrbeu.hospitalorder.utils.HttpUtils;
 import com.google.gson.Gson;
 
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -61,6 +65,19 @@ public class Search extends Activity{
                 finish();
             }
         });
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(){
+                    public void run(){
+                        HashMap<String,String> map=new HashMap<>();
+                        map.put("menuSimname",etSearch.getText().toString());
+                        result= HttpUtils.sendPost(GlobalData.URL+"menu/selectSimMenuName",map,"utf8");
+                        mHandler.sendEmptyMessage(1);
+                    }
+                }.start();
+            }
+        });
 
 
 
@@ -84,6 +101,35 @@ public class Search extends Activity{
         @Override
         public void afterTextChanged(Editable editable) {
 
+        }
+    };
+
+    private ArrayList<Menu> list;
+    Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==1){
+                Gson gson=new Gson();
+                ResultBean resultBean = gson.fromJson(result, ResultBean.class);
+                list=new ArrayList<Menu>();
+                list=resultBean.getList();
+                if (list.size()>0){
+                    MenuAdapter adapter = new MenuAdapter(mContext, list);
+                    searchList.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    searchMain.setVisibility(View.GONE);
+                    searchList.setVisibility(View.VISIBLE);
+                    searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        }
+                    });
+                }else {
+                    Toast.makeText(getApplicationContext(),"没有搜到任何信息~",Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     };
 }
